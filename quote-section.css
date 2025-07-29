@@ -1,0 +1,166 @@
+/* Quote Section Styles */
+.quote-section {
+    padding: 100px 0;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.quote-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="quote-pattern" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23ffc107" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%23ffc107" opacity="0.1"/><circle cx="50" cy="50" r="0.5" fill="%23ffc107" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23quote-pattern)"/></svg>');
+    opacity: 0.3;
+    z-index: 1;
+}
+
+.quote-box {
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(10, 10, 10, 0.9) 100%);
+    border-radius: 25px;
+    padding: 60px 50px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 193, 7, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.quote-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ffc107, #ffdb4d, #ffc107);
+    border-radius: 25px 25px 0 0;
+}
+
+.quote-icon {
+    margin-bottom: 30px;
+}
+
+.quote-icon i {
+    font-size: 3rem;
+    color: #ffc107;
+    opacity: 0.8;
+    animation: quoteGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes quoteGlow {
+    0% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+.quote-text {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    position: relative;
+    font-style: italic;
+}
+
+.quote-text::before {
+    content: '"';
+    font-size: 4rem;
+    color: #ffc107;
+    position: absolute;
+    top: -20px;
+    right: -10px;
+    opacity: 0.3;
+    font-family: serif;
+}
+
+.quote-text::after {
+    content: '"';
+    font-size: 4rem;
+    color: #ffc107;
+    position: absolute;
+    bottom: -40px;
+    left: -10px;
+    opacity: 0.3;
+    font-family: serif;
+}
+
+.quote-author {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.author-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffc107;
+}
+
+.author-title {
+    font-size: 0.9rem;
+    color: #ccc;
+    font-weight: 400;
+}
+
+/* Responsive Design for Quote Section */
+@media (max-width: 768px) {
+    .quote-section {
+        padding: 60px 0;
+    }
+    
+    .quote-box {
+        padding: 40px 30px;
+        border-radius: 20px;
+    }
+    
+    .quote-text {
+        font-size: 1.4rem;
+    }
+    
+    .quote-icon i {
+        font-size: 2.5rem;
+    }
+    
+    .quote-text::before,
+    .quote-text::after {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .quote-box {
+        padding: 30px 20px;
+        border-radius: 15px;
+    }
+    
+    .quote-text {
+        font-size: 1.2rem;
+    }
+    
+    .quote-icon i {
+        font-size: 2rem;
+    }
+    
+    .author-name {
+        font-size: 1rem;
+    }
+    
+    .author-title {
+        font-size: 0.8rem;
+    }
+} 

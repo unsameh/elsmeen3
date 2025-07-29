@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جميع المقالات | مجموعة السمين للمحاماة</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/logo/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/logo/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/logo/apple-touch-icon.png">
+    <link rel="manifest" href="assets/images/logo/site.webmanifest">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        /* Articles Page Specific Styles */
+        .articles-hero {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .articles-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('assets/images/background/her1.jpg') center/cover;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .articles-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .articles-breadcrumb {
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--accent-primary);
+        }
+
+        .articles-breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .articles-breadcrumb a:hover {
+            color: var(--text-primary);
+        }
+
+        .articles-breadcrumb i {
+            margin: 0 10px;
+            font-size: 12px;
+        }
+
+        .articles-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .articles-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+        }
+
+        .articles-filters {
+            background: var(--card-bg);
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border-secondary);
+        }
+
+        .filter-container {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            position: relative;
+            min-width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 45px 12px 20px;
+            border: 2px solid var(--border-secondary);
+            border-radius: 25px;
+            background: var(--input-bg);
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 15px var(--shadow-primary);
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-primary);
+            font-size: 18px;
+        }
+
+        .filter-select {
+            padding: 12px 20px;
+            border: 2px solid var(--border-secondary);
+            border-radius: 25px;
+            background: var(--input-bg);
+            color: var(--text-primary);
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .filter-select option {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .articles-grid {
+            padding: 80px 0;
+            background: var(--bg-secondary);
+        }
+
+        .articles-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+            justify-items: center;
+        }
+
+        .article-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid #3a3a3a;
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px var(--shadow-secondary);
+            border-color: #ffc107;
+            border-width: 2px;
+        }
+
+        .article-card-image {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+        }
+
+        .article-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .article-card:hover .article-card-image img {
+            transform: scale(1.1);
+        }
+
+        .article-card-category {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #ffc107 0%, #ffdb4d 100%);
+            color: #1a1a1a;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .article-card-content {
+            padding: 25px;
+        }
+
+        .article-card-title {
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .article-card-excerpt {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .article-card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .article-card-date {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .article-card-author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .article-card-author i {
+            color: #ffc107;
+            font-size: 16px;
+        }
+
+        .article-card-readmore {
+            color: #ffc107;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .article-card-readmore:hover {
+            color: #fff;
+            transform: translateX(-5px);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 60px;
+        }
+
+        .pagination-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #2d2d2d;
+            color: #fff;
+            text-decoration: none;
+            border: 1px solid #3a3a3a;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .pagination-btn:hover,
+        .pagination-btn.active {
+            background: #ffc107;
+            color: #1a1a1a;
+            border-color: #ffc107;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #ccc;
+        }
+
+        .no-results i {
+            font-size: 4rem;
+            color: #ffc107;
+            margin-bottom: 20px;
+        }
+
+        .no-results h3 {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .articles-title {
+                font-size: 2rem;
+            }
+
+            .filter-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+
+            .articles-container {
+                grid-template-columns: 1fr;
+            }
+
+            .article-card-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="logo-link">
+                    <img src="assets/images/logo/headerlogo.png" alt="Elsmeen Law Office Logo" class="logo-image no-hover" style="max-width: 160px; width: 100%; height: auto; display: block; margin: 0 auto;">
+                </a>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html#home" class="nav-link">الرئيسية</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#about" class="nav-link">عن المكتب</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#lawyers" class="nav-link">المحامون</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#clients" class="nav-link">العملاء والشركاء</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#services" class="nav-link">خدماتنا</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#blog" class="nav-link">المدونة</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#contact" class="nav-link">تواصل معنا</a>
+                </li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Articles Hero -->
+    <section class="articles-hero">
+        <div class="container">
+            <div class="articles-hero-content">
+                <div class="articles-breadcrumb">
+                    <a href="index.html">الرئيسية</a>
+                    <i class="fas fa-chevron-left"></i>
+                    <a href="index.html#blog">المدونة</a>
+                    <i class="fas fa-chevron-left"></i>
+                    <span>جميع المقالات</span>
+                </div>
+                <h1 class="articles-title">جميع المقالات</h1>
+                <p class="articles-subtitle">اكتشف أحدث المقالات القانونية والنصائح من خبرائنا</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Articles Filters -->
+    <section class="articles-filters">
+        <div class="container">
+            <div class="filter-container">
+                <div class="search-box">
+                    <input type="text" id="searchArticles" placeholder="البحث في المقالات...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <select class="filter-select" id="categoryFilter">
+                    <option value="">جميع الفئات</option>
+                    <option value="startup">الشركات الناشئة</option>
+                    <option value="contracts">العقود</option>
+                    <option value="employment">قانون العمل</option>
+                    <option value="intellectual-property">الملكية الفكرية</option>
+                    <option value="commercial">القانون التجاري</option>
+                    <option value="civil">القانون المدني</option>
+                </select>
+                <select class="filter-select" id="sortFilter">
+                    <option value="newest">الأحدث</option>
+                    <option value="oldest">الأقدم</option>
+                    <option value="popular">الأكثر قراءة</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- Articles Grid -->
+    <section class="articles-grid">
+        <div class="container">
+            <div class="articles-container" id="articlesContainer">
+                <!-- Article cards will be populated by JavaScript -->
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <!-- Pagination buttons will be generated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="assets/images/logo/headerlogo.png" alt="مكتب المحاماة الحديث" class="logo-image">
+                    </div>
+                    <p>  نقدم الخدمات القانونية المتميزة بأعلى معايير الجودة والاحترافية.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>روابط سريعة</h3>
+                    <ul>
+                        <li><a href="index.html#about">عن المكتب</a></li>
+                        <li><a href="index.html#lawyers">المحامون</a></li>
+                        <li><a href="index.html#services">خدماتنا</a></li>
+                        <li><a href="index.html#blog">المدونة</a></li>
+                        <li><a href="index.html#contact">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>خدماتنا</h3>
+                    <ul>
+                        <li>القضايا المدنية</li>
+                        <li>القضايا الأسرية</li>
+                        <li>القضايا الجنائية</li>
+                        <li>القضايا العقارية</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>معلومات الاتصال</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> قطعة 13 بلوك 11008 محور السادات<br>  الحي الأول  - العبور - مصر  </p>
+                    <p><i class="fas fa-phone" ></i> +201 00 505 2724</p>
+                    <p><i class="fas fa-envelope"></i> info@modernlaw.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom" dir="ltr">
+                <p>&copy; 2024 All Rights Reserved |  <a href="https://www.behance.com/unsameh" target="_blank"></a>  Designed by <a href="https://www.behance.com/unsameh" target="_blank">unsameh</a>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" title="العودة للأعلى">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Articles data
+        const articles = [
+            {
+                id: 1,
+                title: "نصائح قانونية للشركات الناشئة",
+                excerpt: "دليلك لتجنب الأخطاء القانونية الشائعة عند تأسيس شركتك الناشئة في مصر والمنطقة العربية.",
+                image: "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=600&q=80",
+                category: "startup",
+                date: "10 يوليو 2024",
+                author: "أحمد عفيفي السمين",
+                authorImage: "assets/images/lawyers/Ahmedelsmeen.jpg",
+                readTime: "8 دقائق",
+                url: "article.html"
+            },
+            {
+                id: 2,
+                title: "أهمية العقود في حماية الأعمال",
+                excerpt: "تعرف على أنواع العقود الأساسية وكيفية صياغتها لضمان حقوقك التجارية والقانونية.",
+                image: "https://images.unsplash.com/photo-1503676382389-4809596d5290?w=600&q=80",
+                category: "contracts",
+                date: "2 يوليو 2024",
+                author: "وائل عادل",
+                authorImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face",
+                readTime: "6 دقائق",
+                url: "#"
+            },
+            {
+                id: 3,
+                title: "كيف تختار المحامي المناسب",
+                excerpt: "نصائح عملية لاختيار المحامي الأنسب لقضيتك أو شركتك، وما يجب مراعاته عند التعاقد.",
+                image: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=600&q=80",
+                category: "civil",
+                date: "25 يونيو 2024",
+                author: "أحمد حجازي",
+                authorImage: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face",
+                readTime: "5 دقائق",
+                url: "#"
+            },
+            {
+                id: 4,
+                title: "دليل قانون العمل للشركات",
+                excerpt: "كل ما تحتاج معرفته عن حقوق وواجبات العمال والشركات في القانون المصري.",
+                image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80",
+                category: "employment",
+                date: "18 يونيو 2024",
+                author: "علاء عبدالمنعم",
+                authorImage: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop&crop=face",
+                readTime: "7 دقائق",
+                url: "#"
+            },
+            {
+                id: 5,
+                title: "حماية الملكية الفكرية في مصر",
+                excerpt: "دليلك الشامل لحماية براءات الاختراع والعلامات التجارية وحقوق النشر.",
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
+                category: "intellectual-property",
+                date: "12 يونيو 2024",
+                author: "ذكي الشحري",
+                authorImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face",
+                readTime: "9 دقائق",
+                url: "#"
+            },
+            {
+                id: 6,
+                title: "قانون الشركات الجديد في مصر",
+                excerpt: "تحديثات مهمة في قانون الشركات وتأثيرها على الأعمال التجارية.",
+                image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&q=80",
+                category: "commercial",
+                date: "5 يونيو 2024",
+                author: "أحمد سلامة",
+                authorImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face",
+                readTime: "10 دقائق",
+                url: "#"
+            },
+            {
+                id: 7,
+                title: "التحكيم التجاري الدولي",
+                excerpt: "مميزات وعيوب اللجوء للتحكيم في النزاعات التجارية الدولية.",
+                image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=80",
+                category: "commercial",
+                date: "28 مايو 2024",
+                author: "عمر إمام",
+                authorImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face",
+                readTime: "8 دقائق",
+                url: "#"
+            },
+            {
+                id: 8,
+                title: "قانون حماية المستهلك",
+                excerpt: "حقوق المستهلكين وسبل حمايتهم في القانون المصري.",
+                image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&q=80",
+                category: "civil",
+                date: "20 مايو 2024",
+                author: "علاء عبدالمنعم",
+                authorImage: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop&crop=face",
+                readTime: "6 دقائق",
+                url: "#"
+            }
+        ];
+
+        // Category names mapping
+        const categoryNames = {
+            'startup': 'الشركات الناشئة',
+            'contracts': 'العقود',
+            'employment': 'قانون العمل',
+            'intellectual-property': 'الملكية الفكرية',
+            'commercial': 'القانون التجاري',
+            'civil': 'القانون المدني'
+        };
+
+        // Initialize articles page
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentPage = 1;
+            const articlesPerPage = 6;
+            let filteredArticles = [...articles];
+
+            // Initialize AOS
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out',
+                once: true,
+                offset: 100
+            });
+
+            // Render articles
+            function renderArticles() {
+                const container = document.getElementById('articlesContainer');
+                const startIndex = (currentPage - 1) * articlesPerPage;
+                const endIndex = startIndex + articlesPerPage;
+                const pageArticles = filteredArticles.slice(startIndex, endIndex);
+
+                if (pageArticles.length === 0) {
+                    container.innerHTML = `
+                        <div class="no-results">
+                            <i class="fas fa-search"></i>
+                            <h3>لا توجد نتائج</h3>
+                            <p>جرب تغيير معايير البحث أو الفئة</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = pageArticles.map(article => `
+                    <div class="article-card" data-aos="fade-up">
+                        <div class="article-card-image">
+                            <img src="${article.image}" alt="${article.title}">
+                            <div class="article-card-category">${categoryNames[article.category]}</div>
+                        </div>
+                        <div class="article-card-content">
+                            <h3 class="article-card-title">${article.title}</h3>
+                            <p class="article-card-excerpt">${article.excerpt}</p>
+                            <div class="article-card-meta">
+                                <div class="article-card-date">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>${article.date}</span>
+                                </div>
+                                <div class="article-card-author">
+                                    <i class="fas fa-user-tie"></i>
+                                    <span>${article.author}</span>
+                                </div>
+                            </div>
+                            <a href="${article.url}" class="article-card-readmore">
+                                اقرأ المزيد
+                                <i class="fas fa-arrow-left"></i>
+                            </a>
+                        </div>
+                    </div>
+                `).join('');
+
+                renderPagination();
+            }
+
+            // Render pagination
+            function renderPagination() {
+                const totalPages = Math.ceil(filteredArticles.length / articlesPerPage);
+                const pagination = document.getElementById('pagination');
+
+                if (totalPages <= 1) {
+                    pagination.innerHTML = '';
+                    return;
+                }
+
+                let paginationHTML = '';
+
+                // Previous button
+                paginationHTML += `
+                    <a href="#" class="pagination-btn ${currentPage === 1 ? 'disabled' : ''}" 
+                       onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'style="pointer-events: none;"' : ''}>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                `;
+
+                // Page numbers
+                for (let i = 1; i <= totalPages; i++) {
+                    if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                        paginationHTML += `
+                            <a href="#" class="pagination-btn ${i === currentPage ? 'active' : ''}" 
+                               onclick="changePage(${i})">${i}</a>
+                        `;
+                    } else if (i === currentPage - 2 || i === currentPage + 2) {
+                        paginationHTML += `<span class="pagination-btn" style="background: transparent; border: none;">...</span>`;
+                    }
+                }
+
+                // Next button
+                paginationHTML += `
+                    <a href="#" class="pagination-btn ${currentPage === totalPages ? 'disabled' : ''}" 
+                       onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'style="pointer-events: none;"' : ''}>
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                `;
+
+                pagination.innerHTML = paginationHTML;
+            }
+
+            // Change page function
+            window.changePage = function(page) {
+                currentPage = page;
+                renderArticles();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            // Filter articles
+            function filterArticles() {
+                const searchTerm = document.getElementById('searchArticles').value.toLowerCase();
+                const categoryFilter = document.getElementById('categoryFilter').value;
+                const sortFilter = document.getElementById('sortFilter').value;
+
+                filteredArticles = articles.filter(article => {
+                    const matchesSearch = article.title.toLowerCase().includes(searchTerm) || 
+                                        article.excerpt.toLowerCase().includes(searchTerm);
+                    const matchesCategory = !categoryFilter || article.category === categoryFilter;
+                    return matchesSearch && matchesCategory;
+                });
+
+                // Sort articles
+                switch (sortFilter) {
+                    case 'oldest':
+                        filteredArticles.sort((a, b) => new Date(a.date) - new Date(b.date));
+                        break;
+                    case 'popular':
+                        // For now, sort by ID (you can add view count later)
+                        filteredArticles.sort((a, b) => b.id - a.id);
+                        break;
+                    default: // newest
+                        filteredArticles.sort((a, b) => new Date(b.date) - new Date(a.date));
+                }
+
+                currentPage = 1;
+                renderArticles();
+            }
+
+            // Event listeners
+            document.getElementById('searchArticles').addEventListener('input', filterArticles);
+            document.getElementById('categoryFilter').addEventListener('change', filterArticles);
+            document.getElementById('sortFilter').addEventListener('change', filterArticles);
+
+            // Initial render
+            renderArticles();
+        });
+    </script>
+</body>
+</html> 
